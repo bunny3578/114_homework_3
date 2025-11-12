@@ -12,25 +12,13 @@ SEARCH_URL = "https://search.books.com.tw/search/query/key/LLM/cat/BKA"
 
 
 def extract_price_int(text: str) -> int:
-    """初學者版：不使用正則。
-    逐字掃描文字，收集每一段連續的數字，最後一段轉成整數；失敗回 0。
-    例如: '優惠價: 79 折, 513 元' -> ['79','513'] -> 513
-    """
-    digits_blocks = []  # 用來存放找到的所有「連續數字字串」
-    current = ""  # 暫存目前累積的數字
-    for ch in str(text):  # 確保 text 可迭代 (避免 None)
-        if ch.isdigit():
-            current += ch  # 是數字就累加到 current
-        else:
-            if current:  # 碰到非數字且 current 不空，代表一段結束
-                digits_blocks.append(current)
-                current = ""
-    if current:  # 結尾可能還有一段未加入
-        digits_blocks.append(current)
-    if not digits_blocks:  # 沒找到任何數字
+    if not text:
+        return 0
+    nums = re.findall(r"\d+", str(text))  # 找出所有連續數字
+    if not nums:
         return 0
     try:
-        return int(digits_blocks[-1])  # 取最後一段（通常是實際價格）
+        return int(nums[-1])  # 最後一段通常是實際價格
     except ValueError:
         return 0
 
