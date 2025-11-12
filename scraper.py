@@ -296,8 +296,3 @@ if __name__ == "__main__":
     # 測試時建議 headless=False 才能親眼看到彈出視窗被關閉
     data = scrape_books(headless=False, delay=1.0)
     print(f"\n爬取完畢，共抓到 {len(data)} 筆資料。")
-
-    # 顯示前 5 筆預覽
-    print("\n--- 預覽前 5 筆 ---")
-    for b in data[:5]:
-        print(b)
